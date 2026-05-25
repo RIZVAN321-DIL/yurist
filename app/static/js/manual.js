@@ -71,7 +71,14 @@ async function manualCf() {
             tg?.showAlert?.(`Запись создана!\n\nКлиент: ${res.client_name}\n${res.service}\nЮрист: ${res.lawyer}\n${res.date} в ${res.time}`);
             if (isAdmin || state.isLawyerAdmin) { state.stats = await api(`/api/admin/stats?admin_telegram_id=${user?.id}`); state.todayBookings = await api(`/api/admin/today-bookings?admin_telegram_id=${user?.id}`); }
             rn('menu');
-        } else { tg?.showAlert?.(res.detail || 'Ошибка'); }
-    } catch (e) { tg?.showAlert?.('Ошибка соединения'); }
+        } else {
+            let errorMsg = res.detail || 'Неизвестная ошибка';
+            tg?.showAlert?.(`Ошибка: ${errorMsg}`);
+            console.error('Manual booking error:', res);
+        }
+    } catch (e) {
+        tg?.showAlert?.('Ошибка соединения');
+        console.error(e);
+    }
     state.isSubmitting = false;
-}
+        }
