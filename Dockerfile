@@ -7,4 +7,4 @@ COPY . .
 RUN mkdir -p /app/data /app/app/static/uploads
 ENV DATABASE_URL=sqlite+aiosqlite:////app/data/yurist.db
 EXPOSE 8000
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} & python -m app.bot.main"]
